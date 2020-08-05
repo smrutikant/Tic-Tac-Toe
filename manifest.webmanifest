@@ -5,6 +5,7 @@
   "display": "fullscreen",
   "background_color": "#fff",
   "description": "Tic Tac Toe - The Game",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "./assets/appicons/appicon-no-space.png",

@@ -5,6 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Tic Tac Toe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicons/favicon-16x16.png"
+    />
+    <link
+      rel="mask-icon"
+      href="./assets/favicons/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
     <link
       rel="stylesheet"
       type="text/css"
@@ -24,9 +51,16 @@
       <div id="gameover">
         <div class="g-text">
           <p class="g-over">
-            Game over!
+            <img
+              id="result-emoji"
+              src="assets/results/winner.png"
+              style="width: 112px;"
+            />
           </p>
           <p id="endmessage"></p>
+          <button onclick="playAgain()" id="playagain" class="">
+            Play again!
+          </button>
         </div>
       </div>
     </div>
@@ -34,12 +68,12 @@
     <div id="pitch">
       <img id="loader" class="" src="assets/loaders/loader3.gif" />
       <div id="choiceHolder">
-        <select name="pickachoice" id="pickachoice">
-          <option value="">-- Choose X or O --</option>
-          <option value="X">X</option>
-          <option value="O">O</option>
-        </select>
-        <button id="setchoice" onclick="setchoice()">Start</button>
+        <button class="select-button" id="setchoiceX" onclick="setchoice('X')">
+          Choose X
+        </button>
+        <button class="select-button" id="setchoiceO" onclick="setchoice('O')">
+          Choose O
+        </button>
       </div>
       <table id="bord" style="border-collapse: collapse;" border="0">
         <tr>
@@ -61,6 +95,5 @@
       <audio id="audioX" src="assets/sounds/O.mp3" autostart="false"></audio>
       <audio id="audioO" src="assets/sounds/X2.mp3" autostart="false"></audio>
     </div>
-    <button onclick="playAgain()" id="playagain" class="">Play again!</button>
   </body>
 </html>

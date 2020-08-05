@@ -1,7 +1,7 @@
 const bord = document.getElementById("bord");
 const cell_picker = document.getElementsByClassName("ttt-cell");
 var combinedNumbersOfMove = 0;
-
+var waitforComp = false;
 var chosenValue = "X";
 var inputSet = [];
 var choiceForComputer = "O";
@@ -45,20 +45,17 @@ window.onload = function () {
   for (var cellcount = 0; cellcount < cell_picker.length; cellcount++) {
     var eachcell = cell_picker[cellcount];
     eachcell.onclick = function () {
-      handleCellClick(this);
+      handleCellClicked(this);
     };
   }
 };
 
-const setchoice = () => {
-  var chosenValuePicker = document.getElementById("pickachoice");
+const setchoice = (theChoice) => {
   var confirmChoice = confirm(
-    "Are you sure? You want to play with " +
-      chosenValuePicker.options[chosenValuePicker.selectedIndex].value
+    "Are you sure? You want to play with " + theChoice
   );
   if (confirmChoice) {
-    chosenValue =
-      chosenValuePicker.options[chosenValuePicker.selectedIndex].value;
+    chosenValue = theChoice;
     var choiceHolder = document.getElementById("choiceHolder");
     choiceHolder.innerHTML =
       `You have chosen : <span class='close-shadow class${chosenValue}'>` +
@@ -68,20 +65,24 @@ const setchoice = () => {
   }
 };
 
-const handleCellClick = (cell) => {
+const handleCellClicked = (cell) => {
   if (!chosenValue) {
     alert("Please pick a choice to continue!");
   } else {
-    if (cell.innerHTML == "") {
-      fillSet(cell.id, chosenValue);
-      document.getElementById("loader").classList.toggle("display");
-
-      setTimeout(() => {
-        changeTurn();
+    if (!waitforComp) {
+      waitforComp = true;
+      if (cell.innerHTML == "") {
+        fillSet(cell.id, chosenValue);
         document.getElementById("loader").classList.toggle("display");
-      }, 1500);
+        setTimeout(() => {
+          changeTurn();
+          document.getElementById("loader").classList.toggle("display");
+        }, 1500);
+      } else {
+        alert("This cell is occupied. Please select another cell.");
+      }
     } else {
-      alert("This cell is occupied. Please select another cell.");
+      return false;
     }
   }
 };
@@ -92,7 +93,7 @@ const fillSet = (cellid, cellVal) => {
     document.getElementById("gameover-card").classList.add("display");
     return false;
   } else {
-    document.getElementById("playagain").classList.remove("display");
+    //document.getElementById("playagain").classList.remove("display");
     cell_ref = cellid;
     cellid = cellid.split("_");
     availableSet[cellid[0]][cellid[1]] = cellVal;
@@ -117,14 +118,13 @@ const fillSet = (cellid, cellVal) => {
         document.getElementById("playagain").classList.add("display");
         document.getElementById("gameover-card").classList.add("display");
         document.getElementById("endmessage").innerHTML = gameMessage;
-        alert(gameMessage);
+        //alert(gameMessage);
       }
     }
   }
 };
 
 const changeTurn = () => {
-  //Check for save
   attackOponent();
 };
 
@@ -144,11 +144,11 @@ const attackOponent = () => {
   var targetCell;
   if (cellsTooccupyFor.length > 0) {
     targetCell = cellsTooccupyFor[0];
-    console.log("checkmate");
     fillSet(targetCell, choiceForComputer);
   } else {
     saveSelf();
   }
+  waitforComp = false;
 };
 
 const makeaMove = () => {
@@ -172,7 +172,8 @@ const checkGame = () => {
   //alert("Started checking for game");
   if (unOccupiedIndexes.length <= 0) {
     endGame = true;
-    return "Its a draw";
+    document.getElementById("result-emoji").src = "assets/results/draw.png";
+    return "Well! This Match has drawn. Let's play again!";
   }
   for (var i = 0; i < winningSequences.length; i++) {
     if (
@@ -186,9 +187,13 @@ const checkGame = () => {
         .innerHTML;
       if (chosenValue == winnerCode) {
         endGame = true;
+        document.getElementById("result-emoji").src =
+          "assets/results/winner.png";
         return "Congrats! You won this game.";
       } else {
         endGame = true;
+        document.getElementById("result-emoji").src =
+          "assets/results/looser.png";
         return "Oopss!!! You lost this game. Try again";
       }
     }
@@ -215,9 +220,6 @@ const getTheCellthatCanBeTargeted = (against) => {
       for (var k = 0; k < winningCombinationSet[j].length; k++) {
         if (winningCombinationSet[j][k] != unOccupiedIndexes[i]) {
           var keys = winningCombinationSet[j][k].split("_");
-
-          //console.log(availableSet);
-
           if (availableSet[keys[0]][keys[1]] == against) {
             l_count++;
           }
