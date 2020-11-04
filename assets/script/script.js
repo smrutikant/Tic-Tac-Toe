@@ -6,6 +6,8 @@ var chosenValue = "X";
 var inputSet = [];
 var choiceForComputer = "O";
 var endGame = false;
+var confirmMessage = false;
+var tempChoice = "X";
 var availableSet = [
   [false, false, false],
   [false, false, false],
@@ -41,7 +43,7 @@ const winningSequences = [
 ];
 
 window.onload = function () {
-  registerSW();
+  /*registerSW();*/
   for (var cellcount = 0; cellcount < cell_picker.length; cellcount++) {
     var eachcell = cell_picker[cellcount];
     eachcell.onclick = function () {
@@ -51,24 +53,25 @@ window.onload = function () {
 };
 
 const setchoice = (theChoice) => {
-  var confirmChoice = confirm(
-    "Are you sure? You want to play with " + theChoice
-  );
-  if (confirmChoice) {
-    chosenValue = theChoice;
+  var message =
+    "Are you sure? You want to play with&nbsp;&nbsp;&nbsp;<span class='close-shadow class" +
+    theChoice +
+    "'>" +
+    theChoice +
+    "&nbsp;&nbsp;</span>";
+  tempChoice = theChoice;
+  openPopup("confirm", message);
+};
+
+const handleCellClicked = (cell) => {
+  if (!chosenValue) {
+    openPopup("alert", "Please pick a choice to continue!");
+  } else {
     var choiceHolder = document.getElementById("choiceHolder");
     choiceHolder.innerHTML =
       `You have chosen : <span class='close-shadow class${chosenValue}'>` +
       chosenValue +
       `</span>`;
-    choiceForComputer = chosenValue == "X" ? "O" : "X";
-  }
-};
-
-const handleCellClicked = (cell) => {
-  if (!chosenValue) {
-    alert("Please pick a choice to continue!");
-  } else {
     if (!waitforComp) {
       waitforComp = true;
       if (cell.innerHTML == "") {
@@ -79,7 +82,10 @@ const handleCellClicked = (cell) => {
           document.getElementById("loader").classList.toggle("display");
         }, 1500);
       } else {
-        alert("This cell is occupied. Please select another cell.");
+        openPopup(
+          "alert",
+          "This cell is occupied. Please select another cell."
+        );
       }
     } else {
       return false;
@@ -310,4 +316,49 @@ function playAgain() {
   }
   document.getElementById("pickachoice").selectedIndex = "0";
   */
+}
+
+function goback() {
+  history.go(-1);
+}
+
+var closeMessage = document.getElementById("close_message");
+if (closeMessage) {
+  closeMessage.addEventListener("click", function () {
+    document.getElementById("popupformessage").classList.remove("visible");
+    document.getElementById("confirmbtns").classList.remove("visible");
+  });
+}
+
+function confirmYes() {
+  chosenValue = tempChoice;
+  var choiceHolder = document.getElementById("choiceHolder");
+  choiceHolder.innerHTML =
+    `You have chosen : <span class='close-shadow class${chosenValue}'>` +
+    chosenValue +
+    `</span>`;
+  choiceForComputer = chosenValue == "X" ? "O" : "X";
+  document.getElementById("popupformessage").classList.remove("visible");
+  document.getElementById("confirmbtns").classList.remove("visible");
+}
+
+function confirmNo() {
+  document.getElementById("popupformessage").classList.remove("visible");
+  document.getElementById("confirmbtns").classList.remove("visible");
+}
+
+function openPopup(type, message) {
+  if (type == "confirm") {
+    document.getElementById("the_message").innerHTML = message;
+    document.getElementById("popupformessage").classList.add("visible");
+    document.getElementById("confirmbtns").classList.add("visible");
+    document.getElementById("close_message").style.display = "none";
+    document.getElementById("confirmbtns").style.display("block");
+  } else {
+    document.getElementById("the_message").innerHTML = message;
+    document.getElementById("popupformessage").classList.add("visible");
+    document.getElementById("confirmbtns").classList.remove("visible");
+    document.getElementById("confirmbtns").style.display("none");
+    document.getElementById("close_message").style.display = "flex";
+  }
 }

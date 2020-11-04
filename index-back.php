@@ -1,3 +1,7 @@
+<?php
+  /*print_r($_REQUEST);
+  exit;*/
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -44,18 +48,9 @@
       sizes="180x180"
       href="./assets/appicons/appicon-no-space.png"
     />
+    <script src="./assets/script/script.js"></script>
   </head>
   <body>
-    <div id="popupformessage">
-      <div id="message_holder">
-        <div id="close_message">X</div>
-        <p id="the_message"></p>
-        <div id="confirmbtns">
-          <button onclick="confirmYes()" id="confirmYes">YES</button>
-          <button onclick="confirmNo()" id="confirmNo">NO</button>
-        </div>
-      </div>
-    </div>
     <div id="gameover-card">
       <div id="gameover">
         <div class="g-text">
@@ -63,7 +58,7 @@
             <img
               id="result-emoji"
               src="assets/results/winner.png"
-              style="width: 112px"
+              style="width: 112px;"
             />
           </p>
           <p id="endmessage"></p>
@@ -84,7 +79,7 @@
           Choose O
         </button>
       </div>
-      <table id="bord" style="border-collapse: collapse" border="0">
+      <table id="bord" style="border-collapse: collapse;" border="0">
         <tr>
           <td class="ttt-cell" id="0_0"></td>
           <td class="ttt-cell" id="0_1"></td>
@@ -104,21 +99,5 @@
       <audio id="audioX" src="assets/sounds/O.mp3" autostart="false"></audio>
       <audio id="audioO" src="assets/sounds/X2.mp3" autostart="false"></audio>
     </div>
-    <!--<button id="goback" onclick="goback()">Go back to app gallery</button>-->
   </body>
-  <script></script>
 </html>
-
-<style>
-  #goback {
-    padding: 10px;
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    background: #000;
-    color: #fff;
-    cursor: pointer;
-  }
-</style>
-
-<script src="./assets/script/script.js"></script>

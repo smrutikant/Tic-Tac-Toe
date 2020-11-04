@@ -15,6 +15,75 @@ body {
   background-size: cover;
 }
 
+#popupformessage {
+  display: flex;
+  visibility: hidden;
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  align-items: center;
+  justify-content: center;
+}
+
+#popupformessage.visible {
+  visibility: visible;
+}
+#message_holder {
+  padding: 30px;
+  border-radius: 4px;
+  position: relative;
+  text-align: center;
+  background: black;
+  color: #fff;
+  box-shadow: 0px 0px 10px seagreen;
+}
+#confirmYes,
+#confirmNo {
+  border: none;
+  min-width: 70px;
+  color: #fff;
+  border-radius: 4px;
+  padding: 15px;
+  font-size: 15px;
+  cursor: pointer;
+}
+#confirmYes {
+  background: seagreen;
+}
+#confirmNo {
+  background: tomato;
+}
+#the_message {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#close_message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+#confirmbtns {
+  visibility: hidden;
+}
+#confirmbtns.visible {
+  visibility: visible;
+}
 #gameover-card {
   width: 100%;
   height: 100vh;
@@ -195,4 +264,17 @@ body {
   margin-bottom: 24px;
   text-align: center;
   color: aquamarine;
+}
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  #pitch {
+    background: none;
+    background-image: none;
+    box-shadow: none;
+  }
+  #gamename {
+    display: none;
+  }
+  #bord tr td {
+    font-size: 70px;
+  }
 }
